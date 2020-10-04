@@ -4,8 +4,10 @@ module.exports.cypher = (action, text, shift) => {
     for (let i = 0; i < text.length; i++) {
       let letter = text[i];
       let code = text.charCodeAt(i);
-      if (/[a-z]/i.test(letter)) {
-        cypheredText += String.fromCharCode(code + Number(shift) % 26);
+      if (code >= 65 && code <= 90) {
+        cypheredText += String.fromCharCode((code - 65 + Number(shift)) % 26 + 65);
+      } else if (code >= 97 && code <= 122) {
+        cypheredText += String.fromCharCode((code - 97 + Number(shift)) % 26 + 97);
       } else {
         cypheredText += letter;
       }
@@ -18,8 +20,10 @@ module.exports.cypher = (action, text, shift) => {
     for (let i = 0; i < text.length; i++) {
       let letter = text[i];
       let code = text.charCodeAt(i);
-      if (/[a-z]/i.test(letter)) {
-        decypheredText += String.fromCharCode(code - Number(shift) % 26);
+      if (code >= 65 && code <= 90) {
+        decypheredText += String.fromCharCode((code - 65 - Number(shift)) % 26 + 65);
+      } else if (code >= 97 && code <= 122) {
+        decypheredText += String.fromCharCode((code - 97 - Number(shift)) % 26 + 97);
       } else {
         decypheredText += letter;
       }

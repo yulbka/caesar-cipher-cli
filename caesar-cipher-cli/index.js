@@ -6,7 +6,7 @@ const { cypher } = require('./cypher');
 const args = process.argv.slice(2);
 const actionIndex = args.indexOf('-a') + 1;
 const shiftIndex = args.indexOf('-s') + 1;
-const action = args[actionIndex] === '-a' || '-action' ? 'encode' : 'decode';
+const action = args[actionIndex];
 
 class cypherTransform extends stream.Transform {
   _transform(data, encoding, callback) {
