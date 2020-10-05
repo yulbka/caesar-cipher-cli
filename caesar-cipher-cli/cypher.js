@@ -16,19 +16,8 @@ module.exports.cypher = (action, text, shift) => {
   }
   
   const decypher = (text, shift) => {
-    let decypheredText = '';
-    for (let i = 0; i < text.length; i++) {
-      let letter = text[i];
-      let code = text.charCodeAt(i);
-      if (code >= 65 && code <= 90) {
-        decypheredText += String.fromCharCode((code - 65 - Number(shift)) % 26 + 65);
-      } else if (code >= 97 && code <= 122) {
-        decypheredText += String.fromCharCode((code - 97 - Number(shift)) % 26 + 97);
-      } else {
-        decypheredText += letter;
-      }
-    }
-    return decypheredText;
+    shift = (26 - shift) % 26;
+    return cypher(text, shift);
   }
 
   if (action === 'encode') {
