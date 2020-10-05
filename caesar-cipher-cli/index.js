@@ -1,10 +1,13 @@
-const fs = require('fs');
 const stream = require('stream');
-const { pipeline } = require('stream');
+const fs = require('fs');
+const path = require('path');
 const { cypher } = require('./cypher');
 const args = require('./args');
 
-class cypherTransform extends stream.Transform {
+const pathToRead = args.input && path.resolve(__dirname, args.input);
+const pathToWrite = args.input && path.resolve(__dirname, args.output);
+
+class CypherTransform extends stream.Transform {
   _transform(data, encoding, callback) {
     try {
       callback(null, cypher(args.action, data.toString(), args.shift));
@@ -14,10 +17,14 @@ class cypherTransform extends stream.Transform {
   }
 }
 
+const read = args.input ? fs.createReadStream(pathToRead) : process.stdin;
+const write = args.output ? fs.createWriteStream(pathToWrite, { flags: 'a', }) : process.stdout;
+const transform = new CypherTransform();
+
 stream.pipeline(
-  process.stdin,
-  new cypherTransform(),
-  process.stdout,
+  read,
+  transform,
+  write,
   err => {
       if (err) {
           console.error('Failed', err)

@@ -31,5 +31,9 @@ module.exports.cypher = (action, text, shift) => {
     return decypheredText;
   }
 
-  return action === 'encode' ? cypher(text, shift) : decypher(text, shift);
+  if (action === 'encode') {
+    return cypher(text, shift)
+  } else if (action === 'decode') {
+    return decypher(text, shift)
+  }
 }
