@@ -2,16 +2,12 @@ const fs = require('fs');
 const stream = require('stream');
 const { pipeline } = require('stream');
 const { cypher } = require('./cypher');
-
-const args = process.argv.slice(2);
-const actionIndex = args.indexOf('-a') + 1;
-const shiftIndex = args.indexOf('-s') + 1;
-const action = args[actionIndex];
+const args = require('./args');
 
 class cypherTransform extends stream.Transform {
   _transform(data, encoding, callback) {
     try {
-      callback(null, cypher(action, data.toString(), args[shiftIndex]));
+      callback(null, cypher(args.action, data.toString(), args.shift));
     } catch (error) {
       callback(error);
     }
