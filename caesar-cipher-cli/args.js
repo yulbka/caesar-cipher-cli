@@ -27,20 +27,20 @@ const validate = () => {
     process.exit(1);
   }
   if (input) {
-    fs.access(input, fs.constants.F_OK | fs.constants.R_OK, (err) => {
-      if (err) {
-        console.error(`${input} does not exists or not readable`);
-        process.exit(1);
-      }
-    });
+    try {
+      fs.accessSync(input, fs.constants.F_OK | fs.constants.R_OK)
+    } catch (error) {
+      console.error(`${input} does not exists or not readable`);
+      process.exit(1);
+    }
   }
   if (output) {
-    fs.access(output, fs.constants.F_OK | fs.constants.W_OK, (err) => {
-      if (err) {
-        console.error(`${output} does not exists or not writable`);
-        process.exit(1);
-      }
-    });
+    try {
+      fs.accessSync(output, fs.constants.F_OK | fs.constants.W_OK)
+    } catch (error) {
+      console.error(`${output} does not exists or not writable`);
+      process.exit(1);
+    }
   }
 }
 

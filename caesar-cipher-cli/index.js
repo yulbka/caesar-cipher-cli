@@ -6,9 +6,6 @@ const args = require('./args');
 
 args.validate();
 
-const pathToRead = args.input && path.resolve(__dirname, args.input);
-const pathToWrite = args.input && path.resolve(__dirname, args.output);
-
 class CypherTransform extends stream.Transform {
   _transform(data, encoding, callback) {
     try {
@@ -19,8 +16,8 @@ class CypherTransform extends stream.Transform {
   }
 }
 
-const read = args.input ? fs.createReadStream(pathToRead) : process.stdin;
-const write = args.validate() && args.output ? fs.createWriteStream(pathToWrite, { flags: 'a' }) : process.stdout;
+const read = args.input ? fs.createReadStream(path.resolve(__dirname, args.input)) : process.stdin;
+const write = args.output ? fs.createWriteStream(path.resolve(__dirname, args.output), { flags: 'a' }) : process.stdout;
 const transform = new CypherTransform();
 
 stream.pipeline(
